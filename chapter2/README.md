@@ -4,9 +4,11 @@
 
 严蔚敏《数据结构》、 [线性表详解：数据结构线性表10分钟入门](http://data.biancheng.net/linear_list/)
 
-### 重点题目
+### Exercise 2.1 [线性表的合并](https://github.com/da1234cao/data_structure/blob/master/chapter2/2_1.cpp)
 
-2_22 和2_23 ，一元多项式的相加和相乘。
+### Exercise [2.2合并两个有序表](https://github.com/da1234cao/data_structure/blob/master/chapter2/2_2.cpp)
+
+### Exersier 2_22 和2_23 ，[一元多项式的相加](https://github.com/da1234cao/data_structure/blob/master/chapter2/2_22.cpp)和[一元多项式相乘](https://github.com/da1234cao/data_structure/blob/master/chapter2/2_23.cpp)。
 
 我在C++的基础上，采用了两种思路。第二种更简单一点。
 
