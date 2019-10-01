@@ -30,5 +30,7 @@
 * 如何计算：实现operate
 * 最后一个尤为重要：如何实现**多位数**、**double、int不同类型**的计算。
 
+我将**计算器**代码，封装成一个类，放在[3_4的头文件](https://github.com/da1234cao/data_structure/blob/master/chapter3/3_4.h)中。当由于目前，没有实际写过继承等代码，在封装上有什么不当之处，请指正。
+
 ### Exercise 3.5 [汉诺塔递归实现](https://github.com/da1234cao/data_structure/blob/master/chapter3/3_5.cpp)
 
