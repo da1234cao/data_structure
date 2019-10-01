@@ -44,7 +44,9 @@
         "iterator": "cpp",
         "map": "cpp",
         "numeric": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "stack": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.dimInactiveRegions": false
 }
