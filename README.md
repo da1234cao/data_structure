@@ -1,4 +1,4 @@
-参考：[严蔚敏版教材<<数据结构>>上的算法C语言实现](https://github.com/xuzhezhaozhao/DS_Code)
+参考：[《数据结构》-严蔚敏.吴伟民-教材源码与习题解析](https://github.com/kangjianwei/Data-Structure)
 
 书籍：《数据结构》、《C++ Primer》第五版
 
