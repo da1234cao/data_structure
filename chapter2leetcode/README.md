@@ -14,3 +14,9 @@
    对初代代码进行优化：[leetcode-两数之和-C++](https://blog.csdn.net/cat1992/article/details/80372617#commentBox)
    
    #2020-6-21
+
+2. [寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)
+
+   参考文章：[中位数](https://zh.wikipedia.org/wiki/%E4%B8%AD%E4%BD%8D%E6%95%B8)
+
+   #2020-7-7
