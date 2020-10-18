@@ -2,6 +2,8 @@
     "files.associations": {
         "cstring": "c",
         "iostream": "c",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "algorithm": "cpp",
+        "utility": "cpp"
     }
 }
