@@ -75,6 +75,7 @@ void FindPeak(const vector<int>& mountain,pair<int,int>& peak,int mod){
 
 
 void findPeak2(const vector<int>& mountain,pair<int,int>& peak,int left,int right){
+    // 必然有解，不用担心跳不出
     int mid = (left+right)>>1;
     if((mountain[mid-1]<=mountain[mid]) && (mountain[mid]>=mountain[mid+1])){
         peak.first = mid;
