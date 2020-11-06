@@ -57,7 +57,7 @@ public:
     // 找结点(x)的前驱结点。即，查找"二叉树中数据值小于该结点"的"最大结点"。
     BSTreeNode<T>* predecessor(BSTreeNode<T> *x);
     // 删除结点(key为节点键值)
-    void remove(T key);
+    BSTreeNode<T>* remove(BSTreeNode<T>* tree,T key);
 
 };
 
@@ -241,17 +241,67 @@ T BSTree<T>::maxnum(){
  * 若一个节点没有左子树，那么判断该节点和其父节点的关系
  *  2.1 若该节点是其父节点的右边孩子，那么该节点的前驱结点即为其父节点。
  *  2.2 找到>这种形状。该节点的父节 是 该节点的祖父节点的右孩子；不是的继续上找，找到>形状
+ *  2.3 合并：2.1和2.2合并，同是找到左上形状(\)的节点
 */
 template<class T>
 BSTreeNode<T>* BSTree<T>::predecessor(BSTreeNode<T>* x){
+    if(x==nullptr)
+        return nullptr;
+
     if(x->left!=nullptr)
         return maxnum(x->left);
 
     BSTreeNode<T>* p = x->parent;
-    BSTreeNode<T>* pp = p->parent;
-    if(p!=nullptr && x == p->right)
-        return p;
-    
+    // 按照2.3思路:当跳出循环的时候，找到(\)||没找到nullptr
+    while(p!=nullptr && x==p->left){
+        x=p;
+        p=p->parent;
+    }
+    return p;
+}
+
+
+/**
+ * 后继节点
+ * 1.有右子树，右子树中的最小值
+ * 2.没有右子树，向上找到"/"形状
+*/
+template<class T>
+BSTreeNode<T>* BSTree<T>::successor(BSTreeNode<T>* x){
+    if(x==nullptr)
+        return nullptr;
+    if(x->right!=nullptr)
+        return minnum(x->right);
+    BSTreeNode<T>* p = x->parent;
+    while((p!=nullptr) && (x==p->right)){
+        x=p;
+        p=p->parent;
+    }
+    return p;
+}
+
+/**
+ * 如果是叶子节点，直接删除
+ * 如果只有左孩子或者只有右孩子，删除节点后，剩下的拼接
+ * 如果有左右孩子。删除节点的前驱[后继]，用前驱[后继]代替原位置，删除前驱[后继]。迭代执行。
+*/
+template<class T>
+BSTreeNode<T>* BSTree<T>::remove(BSTreeNode<T>* tree,T key){
+    // 查找该节点的位置
+    BSTreeNode<T>* inode = search(T);
+    if(inode==nullptr)
+        return nullptr;
+
+    if(inode->left==nullptr && inode->right==nullptr){
+        delete(inode);
+        inode=nullptr;
+        return nullptr;
+    }
+
+    if(inode->left==nullptr && inode->right!=nullptr){
+        
+    }
+
 }
 
 #endif

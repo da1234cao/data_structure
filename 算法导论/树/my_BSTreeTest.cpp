@@ -45,6 +45,20 @@ int main(void){
     cout<<"二叉搜索树最大值：";
     cout<<bst.maxnum()<<endl;
     
+    cout<<"二叉树元素前驱查找:";
+    BSTreeNode<int>* pre = bst.predecessor( (bst.search(4)) );
+    if(pre!=nullptr)
+        cout<<pre->key<<endl;
+    else
+        cout<<"没有前驱"<<endl;
+
+    cout<<"二叉树元素后继查找:";
+    BSTreeNode<int>* suc = bst.successor( (bst.search(4)) );
+    if(suc!=nullptr)
+        cout<<suc->key<<endl;
+    else
+        cout<<"没有后继"<<endl;
+
     bst.destroy();
     cout<<"结束，销毁二叉搜索树!!"<<endl;
     return 0;
