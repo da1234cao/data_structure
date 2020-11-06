@@ -1,6 +1,7 @@
 /**
  * 自行写二叉树类
  * 简单起见，头文件中使用using namespace std;
+ * 来源地址：https://www.cnblogs.com/skywang12345/p/3576373.html
 */
 #ifndef MY_BSTREE_H
 #define MY_BSTREE_H
@@ -29,14 +30,35 @@ private:
     void preOrder(BSTreeNode<T>* tree);
     void inOrder(BSTreeNode<T>* tree);
     void postOrder(BSTreeNode<T>* tree);
+    BSTreeNode<T>* search(BSTreeNode<T>* tree,T key);
+    BSTreeNode<T>* iterativeSearch(BSTreeNode<T>* tree,T key);
+    BSTreeNode<T>* minnum(BSTreeNode<T>* tree);
+    BSTreeNode<T>* maxnum(BSTreeNode<T>* tree);
+
 public:
     BSTree(){}
     ~BSTree(){}
-    void insert(T key);
-    void destroy();
-    void preOrder();
-    void inOrder();
-    void postOrder();
+    void insert(T key); //插入
+    void destroy(); // 销毁
+    void preOrder(); // 先序遍历
+    void inOrder(); // 中序遍历
+    void postOrder(); // 后序遍历
+    BSTreeNode<T>* search(T key); // 查找
+    BSTreeNode<T>* iterativeSearch(T key); // 递归查找
+    T minnum(); // 最小值
+    T maxnum(); // 最大值
+
+    // public中的函数，将private中的函数封装一次有什么好处?
+    // 好处在于：树是由树构成的，部分连续子集仍然是树
+    // 稍微有点麻烦的是下面三个：前驱节点，后继结点，删除
+
+    // 找结点(x)的后继结点。即，查找"二叉树中数据值大于该结点"的"最小结点"。
+    BSTreeNode<T>* successor(BSTreeNode<T> *x);
+    // 找结点(x)的前驱结点。即，查找"二叉树中数据值小于该结点"的"最大结点"。
+    BSTreeNode<T>* predecessor(BSTreeNode<T> *x);
+    // 删除结点(key为节点键值)
+    void remove(T key);
+
 };
 
 // 插入树节点
@@ -148,6 +170,88 @@ void BSTree<T>::postOrder(BSTreeNode<T>* tree){
 template<class T>
 void BSTree<T>::postOrder(){
     postOrder(tree);
+}
+
+
+// 二叉搜索树树查找
+template<class T>
+BSTreeNode<T>* BSTree<T>::search(BSTreeNode<T>* tree,T key){
+    BSTreeNode<T>* x=tree;
+    while(x!=nullptr && x->key!=key){
+        if(key < x->key)
+            x=x->left;
+        else
+            x=x->right;
+    }
+    return x;
+}
+
+template<class T>
+BSTreeNode<T>* BSTree<T>::search(T key){
+    return search(tree,key);
+}
+
+// 二叉搜索树树递归查找
+template<class T>
+BSTreeNode<T>* BSTree<T>::iterativeSearch(BSTreeNode<T>* tree,T key){
+    if(tree==nullptr || tree->key == key)
+        return tree;
+    if(key < tree->key)
+        return iterativeSearch(tree->left,key);
+    else
+        return iterativeSearch(tree->right,key);
+}
+
+template<class T>
+BSTreeNode<T>* BSTree<T>::iterativeSearch(T key){
+    iterativeSearch(tree,key);
+}
+
+template<class T>
+BSTreeNode<T>* BSTree<T>::minnum(BSTreeNode<T>* tree){
+    BSTreeNode<T>* x=tree;
+    while(x->left != nullptr)
+        x=x->left;
+    return x;
+}
+
+template<class T>
+T BSTree<T>::minnum(){
+    BSTreeNode<T>* x=minnum(tree);
+    return x->key;
+}
+
+template<class T>
+BSTreeNode<T>* BSTree<T>::maxnum(BSTreeNode<T>* tree){
+    BSTreeNode<T>* x=tree;
+    while(x->right != nullptr)
+        x=x->right;
+    return x;
+}
+
+template<class T>
+T BSTree<T>::maxnum(){
+    BSTreeNode<T>* x=maxnum(tree);
+    return x->key;
+}
+
+/**
+ * 前驱节点:
+ * 若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最大的节点（也就是左子树中所谓的rightMostNode）
+ * 若一个节点没有左子树，那么判断该节点和其父节点的关系
+ *  2.1 若该节点是其父节点的右边孩子，那么该节点的前驱结点即为其父节点。
+ *  2.2 找到>这种形状。该节点的父节 是 该节点的祖父节点的右孩子；不是的继续上找，找到>形状
+*/
+template<class T>
+BSTreeNode<T>* BSTree<T>::predecessor(BSTreeNode<T>* x){
+    if(x->left!=nullptr)
+        return maxnum(x->left);
+
+    BSTreeNode<T>* p = x->parent;
+    BSTreeNode<T>* pp = p->parent;
+    if(p!=nullptr && x == p->right)
+        return p;
+    
 }
 
 #endif
