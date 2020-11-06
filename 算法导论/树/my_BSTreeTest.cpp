@@ -59,6 +59,12 @@ int main(void){
     else
         cout<<"没有后继"<<endl;
 
+    cout<<"二叉树元素删除:\n";
+    bst.remove(2);
+    cout<<"中序遍历二叉搜索树：";
+    bst.inOrder();
+    cout<<endl;
+
     bst.destroy();
     cout<<"结束，销毁二叉搜索树!!"<<endl;
     return 0;
