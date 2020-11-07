@@ -66,6 +66,6 @@ int main(void){
     cout<<endl;
 
     bst.destroy();
-    cout<<"结束，销毁二叉搜索树!!"<<endl;
+    cout<<"结束，销毁二叉搜索树!!";
     return 0;
 }
