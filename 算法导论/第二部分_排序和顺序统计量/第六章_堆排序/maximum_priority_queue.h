@@ -30,7 +30,8 @@ class MPQ{
 
         T heap_maxnum(vector<T> &heap);//堆的最大值
         T heap_extract_max(vector<T> &heap);//返回堆的最大值，并删除最大值
-
+        void heap_increase_key(vector<T> &heap,int i,T key);//将第ｉ个位置的值增大到key
+        void heap_insert(vector<T> &heap,T key); //堆中插入一个元素
 };
 
 /**
@@ -86,7 +87,7 @@ void MPQ<T>::print_max_heap(const vector<T> &heap){
 // 返回堆最大值
 template<class T>
 T MPQ<T>::heap_maxnum(vector<T> &heap){
-    build_max_heap(heap,heap.size()-1);//先构建成大顶堆
+    // build_max_heap(heap,heap.size()-1);//先构建成大顶堆
     return heap[0];
 }
 
@@ -95,11 +96,42 @@ template<class T>
 T MPQ<T>::heap_extract_max(vector<T> &heap){
     if(heap.size()<1)
         cout<<"heap underflow";
-    build_max_heap(heap,heap.size()-1);//先构建成大顶堆
+    // build_max_heap(heap,heap.size()-1);//先构建成大顶堆
     T max = heap[0];
     swap(heap[0],heap[heap.size()-1]);
     heap.pop_back();//删除最后一个元素
     max_heapify(heap,0,heap.size()-1);//重新构建成大顶堆
     return max;
+}
+
+//将第ｉ个位置的值增大到key
+template<class T>
+void MPQ<T>::heap_increase_key(vector<T> &heap,int i,T key){
+    if(i>=heap.size() || heap[i]>=key){
+        cout<<"heap increase i loc key error";
+        return;
+    }
+    // build_max_heap(heap,heap.size()-1);//先建立成大顶堆
+    heap[i]=key;
+    while(i>0 && heap[i]>heap[(i-1)/2]){
+        swap(heap[i],heap[(i-1)/2]);
+        i=(i-1)/2;
+    }
+}
+// 对中插入一个元素
+/**
+ * 书上的方法：在最后插入一个负无穷，然后调用上面的heap_increase_key
+ * 问题在于，使用Ｔ,不知道是什么类型，没法使用INT_MIN这样的宏
+ * 可以直接在最后插入一个数字，手动再次实现向上比较的过程
+ * heapify是向下调整过程，heap_increase_key是向上调整过程
+*/
+template<class T>
+void MPQ<T>::heap_insert(vector<T> &heap,T key){
+    heap.push_back(key);
+    int i=heap.size()-1;
+    while(i>0 && heap[i]>heap[(i-1)/2]){
+        swap(heap[i],heap[(i-1)/2]);
+        i=(i-1)/2;
+    }    
 }
 #endif
