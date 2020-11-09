@@ -25,17 +25,17 @@ void print_vector(vector<int> &v){
 void radix_couting_sort(vector<int> &v,int exp){
     int v_size = v.size();
     vector<int> output(v_size,0);
-    vector<int> buckets(10,0);
+    vector<int> counts(10,0);
 
     for(int i=0; i<v_size; i++)
-        buckets[v[i]/exp%10]++;
-    for(int i=1; i<buckets.size(); i++)
-        buckets[i]+=buckets[i-1];
+        counts[v[i]/exp%10]++;
+    for(int i=1; i<counts.size(); i++)
+        counts[i]+=counts[i-1];
     // for(int i=0; i<v_size; i++){
     // 稳定排序，必须从后向前，因为相同数字的填充是向前填充的
     for(int i=v_size-1; i>=0; i--){
-        output[buckets[v[i]/exp%10]-1]=v[i];
-        buckets[v[i]/exp%10]--;
+        output[counts[v[i]/exp%10]-1]=v[i];
+        counts[v[i]/exp%10]--;
     }
     for(int i=0; i<v_size; i++)
         v[i]=output[i];
