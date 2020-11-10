@@ -20,7 +20,3 @@
 2. [线性表](./chapter2_线性表)
 3. [栈和队列](./chapter3_栈和队列)
 4. [串](./chapter4_串)
-
-## 文档代码结构
-* chapterNUM_description 为《数据结构》书上内容。
-* chapterNUMleetcode 为leetcode中对应tag的题目与解法。
