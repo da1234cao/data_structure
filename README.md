@@ -6,16 +6,11 @@
 
 [leetcode](./leetcode)
 
-[others](./others)
+---
 
-这里是我练习代码的仓库。
-代码有些共同的缺点：
-
-2. 没有测试单元
-
-如果你想提交代码，请提交至others中。代码开头的注释中包含：代码创建者，创建时间，联系方式，使用的协议(GPL)。
-
-好的参考代码：
+相关参考链接：
 
 [数据结构与算法系列 目录--代码写的很漂亮](https://www.cnblogs.com/skywang12345/p/3603935.html)
+
+[LeetCode 刷题攻略](https://github.com/youngyangyang04/leetcode-master)
 
