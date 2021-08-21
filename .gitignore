@@ -1,8 +1,8 @@
 #vscode
-# ./vscode
+/.vscode
 
 #c++
 *.exe
 
 #try
-/try
+# /try
