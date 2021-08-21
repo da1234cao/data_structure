@@ -7,7 +7,7 @@ using namespace std;
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
-        /// 我调试了下代码。可以看到这种查找方式是，从后向前，每四个一组，顺序查找。适用于无序情况。
+        /// 我调试了下代码。可以看到默认find查找方式是，从后向前，每四个一组，顺序查找。适用于无序情况。
         vector<int>::iterator it = find(nums.begin(),nums.end(),target);
         if(it != nums.end())
             return distance(nums.begin(),it);
