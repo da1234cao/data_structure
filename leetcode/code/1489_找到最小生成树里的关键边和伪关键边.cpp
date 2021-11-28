@@ -1,0 +1,129 @@
+#include <vector>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+class unionFind {
+private:
+    vector<int> parent;
+    int cnt;
+public:
+    unionFind(int n){
+        parent.resize(n);
+        cnt = n;
+        for(int i=0; i<n; i++)
+            parent[i] = i;
+    }
+
+    int findRoot(int x){
+        while(x != parent[x])
+            x = parent[x];
+        return x;
+    }
+
+    bool isConnect(int x, int y){
+        int root_x = findRoot(x);
+        int root_y = findRoot(y);
+        return root_x == root_y;
+    }
+
+    bool unionSet(int x, int y){
+        int root_x = findRoot(x);
+        int root_y = findRoot(y);
+        if(root_x == root_y){
+            return false;
+        }else{
+            parent[root_x] = root_y;
+            cnt--;
+            return true;
+        }
+    }
+
+    int getCnt(void){
+        return cnt;
+    }
+};
+
+
+class Solution {
+public:
+    vector<vector<int>> findCriticalAndPseudoCriticalEdges(int n, vector<vector<int>>& edges) {
+        // 修改下数据结构:{起点，终点，权值} -> {起点，终点，权值，第几条边}
+        int m = edges.size();
+        vector<vector<int>> copy(m,vector<int>(4,0));
+        for(int i=0; i<m; i++){
+            for(int j=0; j<edges[i].size(); j++)
+                copy[i][j] = edges[i][j];
+            copy[i][3] = i;
+        }
+
+        // 通过Kruskal算法，计算下最小生成树的权值
+        int val = 0;
+        unionFind uf(n);
+        sort(copy.begin(), copy.end(), [](vector<int>& edge1, vector<int>& edge2){return edge1[2] < edge2[2];}); // 边，按照权值，升序排列
+        for(int i=0; i<m; i++){
+            bool ret = uf.unionSet(copy[i][0], copy[i][1]);
+            if(ret == true) // 返回假，说明存在环，该边不能出现在最小生成树里面。返回值，该节点，可以出现在最小生成树里面
+                val += copy[i][2];
+        }
+
+        // 记录关键边。
+        // 关键边：如果没有该边，一个图断裂成两个，或者生成树的权值比最小生成树权值大
+        vector<int> key_edges;
+        for(int i=0; i<m; i++){
+            int val1 = 0;
+            unionFind uf1(n);
+            for(int j=0; j<m; j++){ // 不使用第i条边，尝试生成最小生成树
+                if(j==i)
+                    continue;
+                bool ret = uf1.unionSet(copy[j][0], copy[j][1]);
+                if(ret == true)
+                    val1 += copy[j][2];
+            }
+            if(uf1.getCnt() != 1 || val1 > val)
+                key_edges.push_back(copy[i][3]);
+        }
+
+        // 记录伪关键边
+        // 伪关键边: 必不是关键边；必然存在某个自小生成树，使用了该边；
+        vector<int> not_key_edges;
+        for(int i=0; i<m; i++){
+            if(find(key_edges.begin(), key_edges.end(), copy[i][3]) != key_edges.end()) // 该边出现在关键边中了
+                continue;
+            // 预先把这条边放入集合中，查看能否生成最小生成树。如果能，则该边是伪关键边
+            int val2 = copy[i][2];
+            unionFind uf2(n);
+            uf2.unionSet(copy[i][0], copy[i][1]);
+            for(int j=0; j<m; j++){ // 第i条边已经放入
+                if(j==i)
+                    continue;
+                bool ret = uf2.unionSet(copy[j][0], copy[j][1]);
+                if(ret == true)
+                    val2 += copy[j][2];
+            }
+            // 关键边都在，所以必然可以构成一个树。只需要判断是否为最小生成树即可
+            if(uf2.getCnt() == 1 && val2 == val)
+                not_key_edges.push_back(copy[i][3]);
+        }
+
+        vector<vector<int>> ans;
+        ans.push_back(key_edges);
+        ans.push_back(not_key_edges);
+        return ans;
+    }
+};
+
+int main(void){
+    // vector<vector<int>> edges = {{0,1,1},{1,2,1},{2,3,2},{0,3,2},{0,4,3},{3,4,3},{1,4,6}};
+    // int n = 5;
+    vector<vector<int>> edges = {{0,1,1},{1,2,1},{0,2,1},{2,3,4},{3,4,2},{3,5,2},{4,5,2}};
+    int n = 6;
+    Solution sol;
+    vector<vector<int>>&& ans = sol.findCriticalAndPseudoCriticalEdges(n,edges);
+    for(auto v : ans){
+        for(auto i : v)
+            cout<<i<<" ";
+        cout<<endl;
+    }
+}
